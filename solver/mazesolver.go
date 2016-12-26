@@ -18,16 +18,14 @@ func Solve(maze model.Maze) {
 	fmt.Println("Starting at", startPos)
 
 	rand.Seed(time.Now().UTC().UnixNano())
-	var steps int
+	var steps []model.Position
 	for {
-		steps++
 		possibleNewPositions := findPathOptions(maze, startPos)
-		fmt.Println(possibleNewPositions)
 		newPos := possibleNewPositions[rand.Intn(len(possibleNewPositions))]
-		fmt.Println("Moving to", newPos)
+		steps = append(steps, newPos)
 		if maze.IsEnd(newPos) == true {
 			fmt.Println("Found the end at", newPos)
-			fmt.Println("Steps taken", steps)
+			fmt.Println("Steps taken", len(steps))
 			return
 		}
 		startPos = newPos

@@ -1,5 +1,7 @@
 package model
 
+import "fmt"
+
 type Maze struct {
 	Points [][]rune
 }
@@ -35,4 +37,17 @@ func (maze *Maze) IsEnd(position Position) bool {
 		return true
 	}
 	return false
+}
+
+func (maze *Maze) Print() {
+	for _, row := range maze.Points {
+		for index, element := range row {
+			printableElement := fmt.Sprintf("%c", element)
+			if (index == 0) {
+				fmt.Println(printableElement)
+			} else {
+				fmt.Print(printableElement)
+			}
+		}
+	}
 }

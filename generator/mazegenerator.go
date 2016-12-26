@@ -1,9 +1,9 @@
 package generator
 
-import "fmt"
+import "github.com/Baabah/maze/model"
 
-func BuildMaze() Maze {
-	maze := Maze{[][]rune{
+func BuildMaze() model.Maze {
+	maze := model.Maze{[][]rune{
 		{'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#'},
 		{'#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', '#'},
 		{'#', ' ', '#', '#', '#', '#', ' ', '#', ' ', ' ', '#', ' ', '#'},
@@ -12,15 +12,4 @@ func BuildMaze() Maze {
 		{'#', '#', '#', '#', '*', '#', '#', '#', '#', '#', '#', '#', '#'},
 	}}
 	return maze
-}
-
-func PrintMaze(maze Maze) {
-	for _, row := range maze.points {
-		for index, element := range row {
-			if (index == 0) {
-				fmt.Println()
-			}
-			fmt.Print(fmt.Sprintf("%c", element))
-		}
-	}
 }

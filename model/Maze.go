@@ -24,13 +24,13 @@ func (maze *Maze) Contains(position Position) bool {
 }
 
 func (maze *Maze) IsEnd(position Position) bool {
-	if (position.Y == len(maze.Points)) {
+	if position.Y == (len(maze.Points) - 1) {
 		return true
 	}
 	if position.Y == 0 {
 		return true
 	}
-	if (position.X == len(maze.Points[0])) {
+	if position.X == (len(maze.Points[0]) - 1) {
 		return true
 	}
 	if position.X == 0 {

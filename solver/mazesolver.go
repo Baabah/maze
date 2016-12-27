@@ -23,7 +23,8 @@ func Solve(maze model.Maze) (model.Solution, error) {
 		steps = append(steps, newPos)
 		if maze.IsEnd(newPos) == true {
 			solution := model.Solution{steps}
-			return solution, nil
+			solutionWithoutDuplicates := removeDuplicates(solution)
+			return solutionWithoutDuplicates, nil
 		}
 		startPos = newPos
 	}
@@ -58,4 +59,16 @@ func findStart(maze model.Maze) (model.Position, error) {
 		}
 	}
 	return model.Position{}, errors.New("No start found")
+}
+
+func removeDuplicates(solution model.Solution) model.Solution {
+	var solutionWithoutDuplicates model.Solution
+	for _, position := range solution.Steps {
+		if solutionWithoutDuplicates.Contains(position) {
+			solutionWithoutDuplicates.RemoveAfter(position)
+			continue
+		}
+		solutionWithoutDuplicates.Steps = append(solutionWithoutDuplicates.Steps, position)
+	}
+	return solutionWithoutDuplicates
 }

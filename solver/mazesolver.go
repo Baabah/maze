@@ -8,11 +8,11 @@ import (
 	"time"
 )
 
-func Solve(maze model.Maze) []model.Position {
+func Solve(maze model.Maze) (model.Solution, error) {
 	startPos, errorResponse := findStart(maze)
 	if errorResponse != nil {
 		fmt.Println(errorResponse)
-		return nil
+		return model.Solution{}, errorResponse
 	}
 
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -22,11 +22,11 @@ func Solve(maze model.Maze) []model.Position {
 		newPos := possibleNewPositions[rand.Intn(len(possibleNewPositions))]
 		steps = append(steps, newPos)
 		if maze.IsEnd(newPos) == true {
-			return steps
+			solution := model.Solution{steps}
+			return solution, nil
 		}
 		startPos = newPos
 	}
-	return nil
 }
 
 func findPathOptions(maze model.Maze, startPos model.Position) []model.Position {

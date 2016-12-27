@@ -7,35 +7,37 @@ import (
 	"fmt"
 )
 
-// todo add solution model
-
 func main() {
 	var maze = generator.BuildMaze()
-	dataChannel := make(chan []model.Position)
+	dataChannel := make(chan model.Solution)
 	for i := 0; i < 30; i++ {
 		go worker(maze, dataChannel)
 	}
 
-	var best []model.Position
+	var best model.Solution
 	for {
 		solution := <- dataChannel
-		if best == nil {
+		if best.Steps == nil {
 			best = solution
-			fmt.Println(best)
-			fmt.Println("Best solution is:", len(best))
+			fmt.Println(best.Steps)
+			fmt.Println("Best solution is:", len(best.Steps))
 			continue
 		}
-		if len(solution) < len(best) {
+		if len(solution.Steps) < len(best.Steps) {
 			best = solution
-			fmt.Println(best)
-			fmt.Println("Best solution is:", len(best))
+			fmt.Println(best.Steps)
+			fmt.Println("Best solution is:", len(best.Steps))
 		}
 	}
 }
 
-func worker(maze model.Maze, dataChannel chan []model.Position) {
+func worker(maze model.Maze, dataChannel chan model.Solution) {
 	for {
-		solution := solver.Solve(maze)
-		dataChannel <- solution
+		solution, errorResponse := solver.Solve(maze)
+		if errorResponse == nil {
+			dataChannel <- solution
+			continue
+		}
+		fmt.Println(errorResponse)
 	}
 }
